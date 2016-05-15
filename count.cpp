@@ -6,7 +6,7 @@ double f(double x)
 {
 	return pow(x, 2);
 }
-
+// edited by Master Tim
 double threePoint(double (*func)(double),double x, double h)
 {
 	return (func(x + h) - func(x - h)) / (2 * h);
