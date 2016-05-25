@@ -1,3 +1,3 @@
 # learngithub
 
-This is Maxs' branch.
+this is the master branch
