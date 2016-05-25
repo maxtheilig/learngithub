@@ -1,3 +1,3 @@
 # learngithub
 
-This is Maxs' branch.
+This is Tim's branch.
