@@ -6,12 +6,12 @@
 #include <utility> //for std::swap-function
 #include "vector.h"
 
-class Vector;
+class Vector; //forward declaration
 
 class Matrix
 {
 private:
-	int m_rows; int m_cols; double** m_mat;
+	int m_rows; int m_cols; double** m_mat; //class members
 public:
 	Matrix()//default constructor: 3x3 unity matrix
 	{
@@ -35,7 +35,7 @@ public:
 				m_mat[i][j] = array[i*m_cols+j];
 		}
 	}*/
-    Matrix(int rows, int cols, double** array)
+    Matrix(int rows, int cols, double** array) //constructor
     {
         m_rows = rows; m_cols = cols;
         m_mat = new double* [m_rows];
@@ -96,10 +96,10 @@ public:
 	}
 	friend Matrix operator+(Matrix &a1, Matrix &a2);//overloading
 	friend Matrix operator*(Matrix &a1, Matrix &a2);//overloading
-	friend Matrix operator*(Matrix &a, int x);
-	friend Matrix operator*(int x, Matrix &a);
-    friend Vector operator/(Matrix &a, Vector &v);
-	friend std::ostream& operator<< (std::ostream &out, Matrix &a);
+	friend Matrix operator*(Matrix &a, double x);//overloading
+	friend Matrix operator*(double x, Matrix &a);//overloading
+    friend Vector operator/(Matrix &a, Vector &v);//Ax=b <=> b=A/x
+	friend std::ostream& operator<< (std::ostream &out, Matrix &a);//prints class
 	double& operator()(int row, int col);//overloading as member function
 	//Matrix& operator= (Matrix &source);//overloading assignment op
 	friend Vector LU(Matrix &a, Vector &v);
@@ -117,11 +117,11 @@ Vector operator/(Matrix &a, Vector &v)//Ax=b <=> b=A/x
 
 Vector LU(Matrix &a, Vector &v)//Solve LGS using LU method
 {
-	if(a.m_cols != a.m_rows){// || a.m_rows != v.m_length){
+	if(a.m_cols != a.m_rows || a.m_rows != v.m_length){//dimension check
 		std::cout << "Dimension Error" << std::endl;}
 	int n = a.m_rows;
-	double* res = new double[n];
-	for(int j=0; j<n-1; ++j){
+	double* res = new double[n];//result vector
+	for(int j=0; j<n-1; ++j){//LR-decomposition
 		if(a.m_mat[j][j]==0){std::cout<<"Error: Pivot=0"<<std::endl;}
 		for(int k=j+1; k<n; ++k){
 			a.m_mat[k][j]=a.m_mat[k][j]/a.m_mat[j][j];
@@ -129,7 +129,7 @@ Vector LU(Matrix &a, Vector &v)//Solve LGS using LU method
 				a.m_mat[k][i]=a.m_mat[k][i]-a.m_mat[k][j]*a.m_mat[j][i];}
 		}
 	}
-	double** L = new double*[n]; double** R = new double*[n];
+	double** L = new double*[n]; double** R = new double*[n];//m_mat->L,R
 	for(int i=0; i<n; ++i){L[i]=new double[n]; R[i]=new double[n];}
 	for(int i=0; i<n; ++i){
 		for(int j=0; j<i+1; ++j){
@@ -138,9 +138,6 @@ Vector LU(Matrix &a, Vector &v)//Solve LGS using LU method
 	for(int j=0; j<n; ++j){
 		for(int i=0; i<j+1; ++i){
 			R[i][j]=a.m_mat[i][j];}}
-	
-	/*Matrix resultClass{a.m_rows,a.m_cols,L};
-	return resultClass;*/
 	double* x = new double[n]; for(int i=0;i<n;++i){x[i]=0.;}
 	for(int i=0; i<n; ++i){//Vorsub
 		double c = 0;
@@ -149,14 +146,14 @@ Vector LU(Matrix &a, Vector &v)//Solve LGS using LU method
 			for(int j=0; j<i; ++j){
 				c = c + L[i][j] * x[j];}}
 		x[i]=(1/L[i][i])*(v.m_vec[i]-c);}
-	for(int i=n-1; i>=0; --i){
+	for(int i=n-1; i>=0; --i){//Rücksub
 		double c = 0;
 		if(i==n-1){}
 		else{
 			for(int j=i+1; j<n; ++j){
                 c = c + R[i][j] * res[j];}}
 		res[i] = (1/R[i][i])*(x[i]-c);}
-	Vector resultClass{n,res};
+	Vector resultClass{n,res};//new class with vector=solution of LGS
 	return resultClass;
 }
 
@@ -172,14 +169,14 @@ Vector LU(Matrix &a, Vector &v)//Solve LGS using LU method
 	return *this;
 }*/ //malloc error=????
 
-double& Matrix::operator()(int row, int col)
+double& Matrix::operator()(int row, int col)//m_mat[i][j]=matrixClass(i,j)
 {
 	if(row < 0 || row >= m_rows|| col < 0 || col >= m_cols){
 		std::cout << "Error: Wrong matrix-index" << std::endl;}
 	return m_mat[row][col];
 }
 
-std::ostream& operator<< (std::ostream &out, Matrix &a)
+std::ostream& operator<< (std::ostream &out, Matrix &a)//prints Class
 {
 	out << "#rows=" << a.m_rows << ", " << "#cols=" << a.m_cols << "\n";
 	out << "Matrix:" << std::endl;
@@ -190,7 +187,7 @@ std::ostream& operator<< (std::ostream &out, Matrix &a)
 	return out;
 }
 
-Matrix operator*(int x, Matrix &a)
+Matrix operator*(double x, Matrix &a)//scalar*matrix
 {
     double** result = new double*[a.m_rows];
     for(int i=0; i<a.m_rows; ++i){
@@ -201,7 +198,7 @@ Matrix operator*(int x, Matrix &a)
     return resultClass;
 }
 
-Matrix operator*(Matrix &a, int x)
+Matrix operator*(Matrix &a, double x)//matrix*scalar
 {
 	double** result = new double*[a.m_rows];
 	for(int i=0; i<a.m_rows; ++i){
@@ -212,7 +209,7 @@ Matrix operator*(Matrix &a, int x)
 	return resultClass;
 }			
 
-Matrix operator*(Matrix &a1, Matrix &a2)
+Matrix operator*(Matrix &a1, Matrix &a2)//matrix-matrix multiplication
 {
 	if(a1.m_cols!=a2.m_rows){
 		std::cout << "Error: Matrices must have same dimension" <<std::endl;
@@ -229,7 +226,7 @@ Matrix operator*(Matrix &a1, Matrix &a2)
 	return prodClass;
 }
 
-Matrix operator+(Matrix &a1, Matrix &a2)
+Matrix operator+(Matrix &a1, Matrix &a2)//adding two matrices
 {
 	if(a1.m_rows!=a2.m_rows || a1.m_cols!=a2.m_cols){
 		std::cout << "Error: Matrices must have same dimension" <<std::endl;
