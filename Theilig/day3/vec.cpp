@@ -1,12 +1,13 @@
 #include <iostream>
 #include "vector.h"
+#include "matrix.h"
 
 int main()
 {
 	const int length1 = 4;
     const int length2 = 4;
-	int vec1[length1] = {1,2,3,4};
-    int vec2[length2] = {4,3,2,1};
+	double vec1[length1] = {1.0,2.0,3.0,4.0};
+    double vec2[length2] = {4.0,3.0,2.0,1.0};
 	Vector vector1{length1,vec1};
 	std::cout << vector1;
     Vector vector2{length2,vec2};

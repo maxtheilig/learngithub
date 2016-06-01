@@ -1,21 +1,24 @@
-#ifndef MATRIX_H
-#define MATRIX_H
+
+#ifndef VECTOR_H
+#define VECTOR_H
 
 #include <iostream>
 #include <cmath>
+
+class Matrix;
 
 class Vector
 {
 private:
 	int m_length;
-	int* m_vec;
+	double* m_vec;
 
 public:
-	Vector(){m_length=3; for(int i=0; i<m_length; ++i) m_vec[i]=0;}//default constructor
-	Vector(const int length, int* array)//constructor
+	Vector(){m_length=3; for(int i=0; i<m_length; ++i) m_vec[i]=0.;}//default constructor
+	Vector(const int length, double* array)//constructor
 	{
 		m_length = length;
-		m_vec = new int[length];
+		m_vec = new double[length];
 		for(int i=0; i<m_length; ++i){m_vec[i]=array[i];}
 	}
 	void printVector()
@@ -36,12 +39,12 @@ public:
 	void resize(int new_length)
 	{
 		if(new_length>m_length){
-			for(int i=m_length-1;i<new_length; ++i) m_vec[i]=0;}
+			for(int i=m_length-1;i<new_length; ++i) m_vec[i]=0.;}
 		m_length = new_length;
 	}
-	int* doubleVector()
+	double* doubleVector()
 	{
-		int* res = new int[m_length];
+		double* res = new double[m_length];
 		for(int i=0; i<m_length; ++i){res[i]=2*m_vec[i];}
 		return res;
 		delete[] res;
@@ -50,13 +53,15 @@ public:
 	{
 		for(int i=0; i<m_length; ++i){m_vec[i]=2*m_vec[i];}
 	}
-	int* getVector()
+	double* getVector()
 	{
 		return m_vec;
 	}
 	friend Vector operator+(Vector &v1, Vector &v2);//overloading
 	friend Vector operator-(Vector &v1, Vector &v2);//overloading
     friend std::ostream& operator<< (std::ostream &out, Vector &v);
+    friend Vector operator/(Matrix &a, Vector &v);
+    friend Vector LU(Matrix &a, Vector &v);
 	~Vector()//destructor
 	{
 		delete[] m_vec;
@@ -80,7 +85,7 @@ Vector operator+(Vector &v1, Vector &v2)
         std::cout << "Error: Vector length has to be equal" << std::endl;
         exit(1);}
     int length = v1.m_length;
-    int* sum = new int[length];
+    double* sum = new double[length];
     for(int i=0; i<length; ++i){
         sum[i]=v1.m_vec[i]+v2.m_vec[i];}
     Vector sumClass = Vector{length,sum};
@@ -93,7 +98,7 @@ Vector add(Vector &v1, Vector &v2)
 		std::cout << "Error: Vector length has to be equal" << std::endl;
 		exit(1);}
 	int length = v1.getSize();
-	int* sum = new int[length];
+	double* sum = new double[length];
 	for(int i=0; i<length; ++i){
 		sum[i]=v1.getVector()[i]+v2.getVector()[i];}
 	Vector sumClass = Vector{length,sum};
@@ -106,7 +111,7 @@ Vector operator-(Vector &v1, Vector &v2)
 		std::cout << "Error: Vector length has to be equal" << std::endl;
 		exit(1);}
 	int length = v1.m_length;
-	int* sum = new int[length];
+	double* sum = new double[length];
 	for(int i=0; i<length; ++i){
 		sum[i]=v1.getVector()[i]-v2.getVector()[i];}
 	Vector sumClass = Vector{length,sum};

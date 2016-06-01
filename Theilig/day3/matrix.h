@@ -4,6 +4,9 @@
 #include <iostream>
 #include <cmath> //for pow-function
 #include <utility> //for std::swap-function
+#include "vector.h"
+
+class Vector;
 
 class Matrix
 {
@@ -95,15 +98,68 @@ public:
 	friend Matrix operator*(Matrix &a1, Matrix &a2);//overloading
 	friend Matrix operator*(Matrix &a, int x);
 	friend Matrix operator*(int x, Matrix &a);
+    friend Vector operator/(Matrix &a, Vector &v);
 	friend std::ostream& operator<< (std::ostream &out, Matrix &a);
 	double& operator()(int row, int col);//overloading as member function
 	//Matrix& operator= (Matrix &source);//overloading assignment op
+	friend Vector LU(Matrix &a, Vector &v);
 	~Matrix()//destructor
 	{
         for(int i=0; i<m_rows; ++i){delete[] m_mat[i];}
 		delete[] m_mat;
 	}
 };
+
+Vector operator/(Matrix &a, Vector &v)//Ax=b <=> b=A/x
+{
+    return LU(a,v);
+}
+
+Vector LU(Matrix &a, Vector &v)//Solve LGS using LU method
+{
+	if(a.m_cols != a.m_rows){// || a.m_rows != v.m_length){
+		std::cout << "Dimension Error" << std::endl;}
+	int n = a.m_rows;
+	double* res = new double[n];
+	for(int j=0; j<n-1; ++j){
+		if(a.m_mat[j][j]==0){std::cout<<"Error: Pivot=0"<<std::endl;}
+		for(int k=j+1; k<n; ++k){
+			a.m_mat[k][j]=a.m_mat[k][j]/a.m_mat[j][j];
+			for(int i=j+1; i<n; ++i){
+				a.m_mat[k][i]=a.m_mat[k][i]-a.m_mat[k][j]*a.m_mat[j][i];}
+		}
+	}
+	double** L = new double*[n]; double** R = new double*[n];
+	for(int i=0; i<n; ++i){L[i]=new double[n]; R[i]=new double[n];}
+	for(int i=0; i<n; ++i){
+		for(int j=0; j<i+1; ++j){
+			if(i==j){L[i][j]=1.0;}
+			else{L[i][j]=a.m_mat[i][j];}}}
+	for(int j=0; j<n; ++j){
+		for(int i=0; i<j+1; ++i){
+			R[i][j]=a.m_mat[i][j];}}
+	
+	/*Matrix resultClass{a.m_rows,a.m_cols,L};
+	return resultClass;*/
+	double* x = new double[n]; for(int i=0;i<n;++i){x[i]=0.;}
+	for(int i=0; i<n; ++i){//Vorsub
+		double c = 0;
+		if(i==0){}
+		else{
+			for(int j=0; j<i; ++j){
+				c = c + L[i][j] * x[j];}}
+		x[i]=(1/L[i][i])*(v.m_vec[i]-c);}
+	for(int i=n-1; i>=0; --i){
+		double c = 0;
+		if(i==n-1){}
+		else{
+			for(int j=i+1; j<n; ++j){
+                c = c + R[i][j] * res[j];}}
+		res[i] = (1/R[i][i])*(x[i]-c);}
+	Vector resultClass{n,res};
+	return resultClass;
+}
+
 
 /*Matrix& Matrix::operator= (Matrix &source)
 {
