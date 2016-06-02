@@ -17,7 +17,7 @@ int main()
 		}
 	}
 	if (x==1)
-		std::cout << "You are an idiot!" << std::endl;
+		std::cout << 1 << "is not a prime number." << std::endl;
 	else if (flag==0)
 		std::cout << x << " is a prime number." << std::endl;
 	else
