@@ -11,7 +11,7 @@ int main()
 	const int length1 = 8;
 	int a[length1] = {1,3,34,65,89,123,4221,42344};
 	printArray(a,length1);
-	int x = 4221;
+	int x = 123;
 	int start(0), end(length1-1);
 	int pos1 = searchSortedArray(a, start, end, x);
 	std::cout << x << " is at position " << pos1+1 << ".\n";
