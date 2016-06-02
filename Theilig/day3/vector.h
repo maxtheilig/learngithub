@@ -26,7 +26,7 @@ public:
 		for(int i=0; i<m_length; ++i){std::cout << m_vec[i] << "\t";}
 		std::cout << std::endl;
 	}
-	double norm(int p)
+	double norm(int p=2)//p-Norm, default 2-Norm
 	{
 		double res = 0;
 		for(int i=0; i<m_length; ++i){res = res + pow(m_vec[i],p);}
@@ -42,25 +42,19 @@ public:
 			for(int i=m_length-1;i<new_length; ++i) m_vec[i]=0.;}
 		m_length = new_length;
 	}
-	double* doubleVector()
-	{
-		double* res = new double[m_length];
-		for(int i=0; i<m_length; ++i){res[i]=2*m_vec[i];}
-		return res;
-		delete[] res;
-	}
-	void doubleVector2()
+	void doubleVector()
 	{
 		for(int i=0; i<m_length; ++i){m_vec[i]=2*m_vec[i];}
 	}
-	double* getVector()
+	double* getVector()//returns pointer to vector
 	{
 		return m_vec;
 	}
 	friend Vector operator+(Vector &v1, Vector &v2);//overloading
 	friend Vector operator-(Vector &v1, Vector &v2);//overloading
-    friend std::ostream& operator<< (std::ostream &out, Vector &v);
-    friend Vector operator/(Matrix &a, Vector &v);
+    friend double operator*(Vector &v1, Vector &v2);//scalar product
+    friend std::ostream& operator<< (std::ostream &out, Vector &v);//prints class
+    friend Vector operator/(Matrix &a, Vector &v);//Ax=b <=> x=A/b
     friend Vector LU(Matrix &a, Vector &v);
 	~Vector()//destructor
 	{
@@ -68,7 +62,17 @@ public:
 	}
 };
 
-std::ostream& operator<< (std::ostream &out, Vector &v)
+double operator*(Vector &v1, Vector &v2)//scalar product
+{
+    double res = 0.;
+    if(v1.m_length != v2.m_length){std::cout << "Dimension Error" << std::endl;}
+    for(int i=0; i<v1.m_length; ++i){
+        res = res + v1.m_vec[i] * v2.m_vec[i];
+    }
+    return res;
+}
+
+std::ostream& operator<< (std::ostream &out, Vector &v)//print class
 {
     out << "length=" << v.m_length << "\n";
     out << "Vector=(";
@@ -79,7 +83,7 @@ std::ostream& operator<< (std::ostream &out, Vector &v)
     return out;
 }
 
-Vector operator+(Vector &v1, Vector &v2)
+Vector operator+(Vector &v1, Vector &v2)//add to vectors with overloading
 {
     if(v1.m_length!=v2.m_length){
         std::cout << "Error: Vector length has to be equal" << std::endl;
@@ -92,7 +96,7 @@ Vector operator+(Vector &v1, Vector &v2)
     return sumClass;
 }
 
-Vector add(Vector &v1, Vector &v2)
+Vector add(Vector &v1, Vector &v2)//add to vectors
 {
 	if(v1.getSize()!=v2.getSize()){
 		std::cout << "Error: Vector length has to be equal" << std::endl;
@@ -105,7 +109,7 @@ Vector add(Vector &v1, Vector &v2)
 	return sumClass;
 }
 
-Vector operator-(Vector &v1, Vector &v2)
+Vector operator-(Vector &v1, Vector &v2)//subtract: v1-v2
 {
 	if(v1.m_length!=v2.m_length){
 		std::cout << "Error: Vector length has to be equal" << std::endl;

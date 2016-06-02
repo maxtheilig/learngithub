@@ -153,6 +153,11 @@ Vector LU(Matrix &a, Vector &v)//Solve LGS using LU method
 			for(int j=i+1; j<n; ++j){
                 c = c + R[i][j] * res[j];}}
 		res[i] = (1/R[i][i])*(x[i]-c);}
+    for(int i=0; i<a.m_rows; ++i){delete[] R[i];}
+    delete[] R;
+    for(int i=0; i<a.m_rows; ++i){delete[] L[i];}
+    delete[] L;
+    delete[] x;
 	Vector resultClass{n,res};//new class with vector=solution of LGS
 	return resultClass;
 }
