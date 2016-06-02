@@ -8,8 +8,7 @@ int main()
 	int flag=0;
 	std::cout << "Enter a number: ";
 	std::cin >> x;
-	for (int i = 2; i <= x/2; ++i)
-	{
+	for (int i = 2; i <= x/2; ++i){
 		if (x%i==0)
 		{
 			flag=1;
