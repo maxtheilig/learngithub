@@ -5,7 +5,6 @@ void addArrays(int* res, int* a1, int* a2, int rows, int cols)
 {
 	for(int i=0; i<(rows*cols); ++i)
 	{
-		res[i] = 0;
 		res[i] = a1[i]+a2[i];
 	}
 }
@@ -18,7 +17,6 @@ void multiQuadArrays(int* res, int *a1, int *a2, int rows, int cols)
 	{
 		for(int i=0; i<cols; ++i)
 		{																
-		std::cout << a1[(j*cols)+i] << "\t" <<a2[(i*cols)+k] << std::endl;
 		res[k+cols*j]=res[k+cols*j]+a1[(j*cols)+i]*a2[(i*cols)+k];
 		}
 	}
