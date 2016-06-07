@@ -4,7 +4,7 @@
 
 void primeFactorisation(int);
 bool isPrime(const unsigned int x);
-int getValue();
+unsigned int getValue();
 void checkIfNumberIsPrimeAndIfNotPrintItsPrimeFactorisation(unsigned int x);
 
 int main()
@@ -13,7 +13,7 @@ int main()
 	return 0;
 }
 
-int getValue()
+unsigned int getValue()
 {
 	std::cout << "Enter a positive number: ";
 	unsigned int x;
@@ -27,7 +27,7 @@ bool isPrime(const unsigned int x)
 {
 	if(x==1)
 		return false;
-	for(unsigned int i=2; i<sqrt(x); ++i)
+	for(unsigned int i=2; i<=sqrt(x); ++i)
 	{
 		if(x%i==0)
 			return false;
