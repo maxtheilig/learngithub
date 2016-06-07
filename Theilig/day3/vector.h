@@ -36,11 +36,17 @@ public:
 	{
 		return m_length;///sizeof(*m_vec);
 	}
-	void resize(int new_length)
+	void resize(const int new_length)
 	{
-		if(new_length>m_length){
-			for(int i=m_length-1;i<new_length; ++i) m_vec[i]=0.;}
+		double* newVector = new double[new_length];
+		for(unsigned int i=0; i<new_length; ++i)
+			newVector[i] = m_vec[i];
+		delete[] m_vec;
+		m_vec = new double[new_length];
 		m_length = new_length;
+		for(unsigned int i=0; i<m_length; ++i)
+			m_vec[i] = newVector[i];
+		delete[] newVector;
 	}
 	void doubleVector()
 	{

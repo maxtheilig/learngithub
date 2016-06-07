@@ -10,6 +10,8 @@ int main()
     double vec2[length2] = {4.0,3.0,2.0,1.0};
 	Vector vector1{length1,vec1};
 	std::cout << vector1;
+	vector1.resize(5);
+	std::cout << vector1;
 	double n = vector1.norm(4);
 	std::cout << n << std::endl;
     Vector vector2{length2,vec2};
