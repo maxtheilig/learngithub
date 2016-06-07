@@ -9,9 +9,9 @@ int getValue()
 }
 
 
-int factorial(int x)
+int factorial(unsigned const int x)
 {	
-	const int y = x;
+	unsigned int y = x;
 	int outp = y;
 	if(x==1)
 	{ return 1; }
