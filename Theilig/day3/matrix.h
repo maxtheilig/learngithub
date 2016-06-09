@@ -46,6 +46,22 @@ public:
                 m_mat[i][j] = array[i][j];
         }
     }
+	void setToZero()
+	{
+		for(int i=0; i<m_rows; ++i)
+		{
+			for(int j=0; j<m_cols; ++j){
+				m_mat[i][j] = 0.;}
+		}
+	}
+	void setToUnity()
+	{
+	for(int i=0; i<m_rows; ++i)
+		{
+			for(int j=0; j<m_cols; ++j){
+				m_mat[i][j] = 0.; if(i==j){m_mat[i][j] = 1.0;}}
+		}
+	}
 	void transpose()
 	{
 		double **result;

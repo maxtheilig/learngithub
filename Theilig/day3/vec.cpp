@@ -6,17 +6,18 @@ int main()
 {
 	const int length1 = 4;
     const int length2 = 4;
+	const int length3 = 4;
 	double vec1[length1] = {1.0,2.0,3.0,4.0};
     double vec2[length2] = {4.0,3.0,2.0,1.0};
+	double vec3[length3] = {1.0,3.0,5.0,7.0};
 	Vector vector1{length1,vec1};
-	std::cout << vector1;
-	vector1.resize(5);
-	std::cout << vector1;
-	double n = vector1.norm(4);
-	std::cout << n << std::endl;
     Vector vector2{length2,vec2};
-	double x = vector1 * vector2;
-	std::cout << "v1*v2=" << x << std::endl;
+	Vector vector3{length3,vec3};
+	//vector1.setToZero();
+	Vector addition = vector1 + vector2;
+	std::cout << addition;
+	double combined = addition * vector3;
+	std::cout << "(v1+v2)*v3=" << combined << std::endl;
     /*vector1.printVector();
 	vector2.printVector();
 	Vector plus = add(vector1, vector2);

@@ -1,4 +1,3 @@
-
 #ifndef VECTOR_H
 #define VECTOR_H
 
@@ -20,6 +19,11 @@ public:
 		m_length = length;
 		m_vec = new double[length];
 		for(int i=0; i<m_length; ++i){m_vec[i]=array[i];}
+	}
+	void setToZero()
+	{
+		for(unsigned int i=0; i<m_length; ++i)
+			m_vec[i] = 0.;
 	}
 	void printVector()
 	{
