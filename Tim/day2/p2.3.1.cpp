@@ -1,29 +1,22 @@
 #include <iostream>
 
-int * reverseArray(int *array,int length)
-{	int * p = &length;
-	const int pp = *p;
-	const int l=3;
-	static int rarray[3];
-	for (int i=0; i<length; ++i)
+void *reverseArray(const int *array, int *reversearray,unsigned const int length)
+{
+	for (unsigned int i=0; i<length; ++i)
 	{
-		rarray[length-1-i]=array[i];
-	}
-	return rarray; 
+		*(reversearray+(length-1-i))=*(array+i);
+	} 
 }
 
 int main()
 {
-	const int length = 3; 
-	int a[length] = {10,20,30};
-	int *b;
-	b = reverseArray(a,length);
-	for (int i=0; i<length; ++i)
+	unsigned const int length = 3; 
+	const int array[length] = {10,20,30};
+	int reversearray[length]={0};
+	reverseArray(array, reversearray, length);
+	for (unsigned int i=0; i<length; ++i)
 	{
-	std::cout<<a[i]<<"\t"<<reverseArray(a,length)[i]<<"\t"<<b[i]<<"\n";
+		std::cout<<array[i]<<"\t"<<reversearray[i]<<"\n";
 	} 
 	return 0;
 }
-
-
-
