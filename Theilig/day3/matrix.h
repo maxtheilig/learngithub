@@ -24,7 +24,7 @@ public:
 				m_mat[i][j] = 0.; if(i==j){m_mat[i][j] = 1.0;}}
 		}
 	}
-	/*Matrix(int rows, int cols,döner double* array)
+	/*Matrix(int rows, int cols, double* array)
 	{
 		m_rows = rows; m_cols = cols;
 		m_mat = new double* [m_rows];
