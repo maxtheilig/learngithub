@@ -69,11 +69,14 @@ class Vector
                                 }
                                 delete[] m_vector;
                                 m_vector = new double[resizedLength];
-				m_vector = {0};
                                 for (unsigned int i=0; i < m_length; ++i)
                                 {
                                         m_vector[i] = copyvector[i];
                                 }
+				for (unsigned int i=m_length; i < resizedLength; ++i)
+				{
+					m_vector[i] = 0;
+				}
                                 delete[] copyvector;
                                 m_length=resizedLength;
 			}
@@ -88,18 +91,18 @@ class Vector
 		{
 			for (unsigned int i=0; i < m_length ; ++i)
 			{
-				m_vector[i]=1;
+				m_vector[i]=0;
 			}
 		}
 
-		double norm( int p)
+		double norm(int p)
 		{
 			double result = 0.;
 			for(unsigned int i=0; i<m_length; ++i)
 			{
 				result += pow(m_vector[i], p);
 			}
-			result = pow(result, (1/p));  
+			result = pow(result, 1.0/p);  
 			return result;	 
 		}
 		
@@ -115,6 +118,7 @@ class Vector
 		friend Vector operator*(double multiplier, Vector &vector);
 		friend std::ostream& operator<< (std::ostream &out, const Vector &vector);
 		friend std::istream& operator>> (std::istream &in, Vector &vector);
+		double& operator()(int index);
 };
 
 Vector operator+(Vector &vector1, Vector &vector2)
@@ -125,7 +129,7 @@ Vector operator+(Vector &vector1, Vector &vector2)
 		summedArray[i]=vector1.m_vector[i]+vector2.m_vector[i];
 	}
 	Vector summedVector = Vector(vector1.m_length, summedArray);
-	delete[] summedArray;
+	delete[] summedArray ;
 	return summedVector;
 }
 
@@ -177,7 +181,7 @@ Vector operator*(double multiplier, Vector &vector)
 
 std::ostream& operator<< (std::ostream &out, const Vector &vector)
 {
-    	out << "Vector(" ; 
+    	out << "(" ; 
 	for (unsigned int i=0; i < vector.m_length-1; ++i)
 	{
 		out << vector.m_vector[i] << ", ";
@@ -194,6 +198,16 @@ std::istream& operator>> (std::istream &in, Vector &vector)
 		in >> vector.m_vector[i];
 	}
     	return in;
+}
+
+double& Vector::operator()(int index)
+{
+	if(index < 1 || index > m_length)
+	{
+		std::cout << "error: wrong vector index" << std::endl;
+	}
+
+	return m_vector[index-1];
 }
 
 #endif
