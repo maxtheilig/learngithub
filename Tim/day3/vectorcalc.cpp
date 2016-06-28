@@ -23,10 +23,11 @@ int main()
 	vector1.resize(5);
 	std::cout << "resize vec2 to 5: " << vector2;
 	std::cout << "resize vec1 to 5: " << vector1;
-	std::cout << "vec1 + vec2 : " << vector1 + vector2;
-	std::cout << "vec1 * vec2 : " << vector1 * vector2 << std::endl;
-	std::cout << "vec2 * 3 : " << vector2*3;
-	std::cout << "0.2 * vec2 : " << 0.2*vector2;
+	std::cout << "vec1 + vec2 = " << vector1 + vector2;
+	std::cout << "vec1 - vec2 = " << vector1 - vector2;
+	std::cout << "vec1 * vec2 = " << vector1 * vector2 << std::endl;
+	std::cout << "vec2 * 3 = " << vector2*3;
+	std::cout << "0.2 * vec2 = " << 0.2*vector2;
 	std::cin >> vector2;
 	std::cout << "you entered vector: " << vector2;
 	return 0;
