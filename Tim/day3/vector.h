@@ -192,11 +192,15 @@ std::ostream& operator<< (std::ostream &out, const Vector &vector)
 
 std::istream& operator>> (std::istream &in, Vector &vector)
 {	
+	std::cout << "enter vector length: " << std::endl;
 	in >> vector.m_length;
+	std::cout << "enter vector components: " << std::endl;
 	for( unsigned int i=0; i<vector.m_length; ++i)
 	{
+		std::cout << i+1 << " : ";
 		in >> vector.m_vector[i];
 	}
+	std::cout << std::endl;
     	return in;
 }
 
