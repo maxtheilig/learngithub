@@ -1,4 +1,4 @@
-//
+// this is a test
 //calculate the even-odd-preconditioned force of the clover term
 //
 
